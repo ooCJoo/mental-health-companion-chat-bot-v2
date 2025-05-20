@@ -8,7 +8,7 @@ const PORT = process.env.PORT || 3000;
 
 // Middleware
 app.use(express.json());
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static('public'));
 
 // Route to handle DeepSeek API requests
 app.post('/api/chat', async (req, res) => {
@@ -57,7 +57,13 @@ app.post('/api/chat', async (req, res) => {
   }
 });
 
+// For serving the frontend in production
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
+
 // Start server
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
 });
+
